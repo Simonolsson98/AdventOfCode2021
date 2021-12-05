@@ -8,11 +8,11 @@ while i:
 
 gamma = ""
 epsilon = ""
-zeroes = 0
-ones = 0
 
 # loop over each column
 for i in range(len(lines[0])):
+	zeroes = 0
+	ones = 0
 	# loop over each row
 	for j in range(len(lines)):
 		if(lines[j][i] == "0"): 
@@ -27,10 +27,7 @@ for i in range(len(lines[0])):
 		gamma += "1"
 		epsilon += "0"
 
-	zeroes = 0
-	ones = 0
-
-# convert to decimal
+# convert outputs to decimal
 print("solution for part 1: " + str(int(gamma, 2) * int(epsilon, 2)))
 
 
@@ -39,14 +36,16 @@ print("solution for part 1: " + str(int(gamma, 2) * int(epsilon, 2)))
 
 oxyrating = ""
 co2rating = ""
+bit_to_check = 0
 
-def foo(int_to_keep, lines, kind, bit_to_check):
+def foo(lines, kind, bit_to_check):
 	global oxyrating
 	global co2rating
 	firstbitone = []
 	firstbitzero = []
 	zeroes = 0
 	ones = 0
+	int_to_keep = -1
 	# loop over each row
 	for j in range(len(lines)):
 		if(lines[j][bit_to_check] == "0"): 
@@ -73,8 +72,8 @@ def foo(int_to_keep, lines, kind, bit_to_check):
 				co2rating = firstbitzero[0]
 			return
 		else:
-			foo(int_to_keep, firstbitzero, kind, bit_to_check = bit_to_check + 1)
-			return
+			return foo(firstbitzero, kind, bit_to_check = bit_to_check + 1)
+			
 	else:
 		if(len(firstbitone) == 1):
 			if(kind == "oxy"):
@@ -83,26 +82,12 @@ def foo(int_to_keep, lines, kind, bit_to_check):
 				co2rating = firstbitone[0]
 			return
 		else:
-			foo(int_to_keep, firstbitone, kind, bit_to_check = bit_to_check + 1)
-			return
+			return foo(firstbitone, kind, bit_to_check = bit_to_check + 1)
 
-zeroes = 0
-ones = 0
-starting_index = 0
+# calculate oxygen generator rating
+foo(lines, "oxy", 0)
+# calculate CO2 scrubber rating
+foo(lines, "co2", 0)
 
-for j in range(len(lines) - 1):
-	if(lines[j][0] == "0"): 
-		zeroes += 1
-	else:
-		ones += 1
-
-# find what digit to look for
-if zeroes > ones:
-	foo(0, lines, "oxy", starting_index)
-	foo(1, lines, "co2", starting_index)
-else:
-	foo(1, lines, "oxy", starting_index)
-	foo(0, lines, "co2", starting_index)
-
-# convert to decimal
+# convert outputs to decimal
 print("solution for part 2: " + str(int(oxyrating, 2) * int(co2rating, 2)))
