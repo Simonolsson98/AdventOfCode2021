@@ -1,5 +1,3 @@
-from typing import final
-
 
 def init():
 	input = open("day10_input.txt")
@@ -18,7 +16,6 @@ queue = []
 discarded_lines = lines[:]
 
 for i in range(len(lines)):
-   #print(str(error_value) + " for line: " + str(i))
     for j in range(len(lines[i])):
         entry = lines[i][j]
         if(entry == "("):
@@ -56,11 +53,10 @@ new_discard = discarded_lines[:]
 
 final_sequences = []
 for i in range(len(discarded_lines)):
-    for k in range(100):
+    for k in range(len(discarded_lines)):
         for j in range(len(discarded_lines[i]) - 1):
             entry = discarded_lines[i][j]
             entry2 = discarded_lines[i][j + 1]
-            #print(entry + "\n" + entry2)
             if( (entry == "(" and entry2 == ")") or 
             (entry == "[" and entry2 == "]") or
             (entry == "{" and entry2 == "}") or
